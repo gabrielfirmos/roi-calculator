@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vampire-black: #08090A;
+  --cultured: #F7F8F8;
+  --argent: #C0C0C0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, var(--vampire-black), #1a1a1a);
+  min-height: 100vh;
+  color: var(--cultured);
+  font-family: 'Inter', sans-serif;
+}
