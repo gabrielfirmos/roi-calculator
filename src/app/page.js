@@ -1,16 +1,17 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { Info } from 'lucide-react';
+import Head from 'next/head';
 
-// Brand Colors - Fixed regardless of system theme
+// Brand Colors - Inverted from original
 const colors = {
-  vampireBlack: '#08090A',
-  cultured: '#F7F8F8',
-  argent: '#C0C0C0',
+  vampireBlack: '#F7F8F8', // Inverted from original vampireBlack
+  cultured: '#08090A',     // Inverted from original cultured
+  argent: '#C0C0C0',      // Keeping argent as is for contrast
   gray: {
-    400: '#747474',
-    500: '#444545',
-    600: '#8C8C8C',
+    400: '#8B8B8B',       // Inverted from original 400
+    500: '#BBBBBB',       // Inverted from original 500
+    600: '#737373',       // Inverted from original 600
   }
 };
 
@@ -38,47 +39,64 @@ export default function CalculatorsPage() {
   }, [activeTab]);
   
   return (
-    <div 
-      ref={contentRef}
-      className="min-h-screen"
-      style={{ 
-        fontFamily: 'Inter, sans-serif', 
-        backgroundColor: 'transparent',
-        isolation: 'isolate'
-      }}
-    >
-      <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-8">
-        <div className="space-y-8">
-          <div className="flex justify-center gap-4">
-            {['pipeline', 'time'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`group relative px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105
-                  ${activeTab === tab ? 'shadow-lg' : ''}`}
-                style={{
-                  backgroundColor: activeTab === tab ? colors.vampireBlack : 'rgba(8, 9, 10, 0.2)',
-                  color: activeTab === tab ? colors.cultured : colors.vampireBlack
-                }}
-              >
-                {tab === 'pipeline' ? 'Pipeline Value' : 'Time Savings'}
-                <div 
-                  className={`absolute left-0 bottom-0 h-1 rounded-b-lg transition-all duration-500 ease-out
-                    ${activeTab === tab ? 'w-full' : 'w-0'}`}
-                  style={{ 
-                    backgroundColor: activeTab === tab ? colors.vampireBlack : 'transparent'
+    <>
+      <Head>
+        <meta name="color-scheme" content="light" />
+        <style>{`
+          :root {
+            color-scheme: light !important;
+          }
+          
+          @media (prefers-color-scheme: dark) {
+            :root {
+              color-scheme: light !important;
+            }
+          }
+        `}</style>
+      </Head>
+      <div 
+        ref={contentRef}
+        className="min-h-screen"
+        style={{ 
+          fontFamily: 'Inter, sans-serif', 
+          backgroundColor: colors.vampireBlack,
+          isolation: 'isolate',
+          colorScheme: 'light'
+        }}
+      >
+        <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-8">
+          <div className="space-y-8">
+            <div className="flex justify-center gap-4">
+              {['pipeline', 'time'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`group relative px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105
+                    ${activeTab === tab ? 'shadow-lg' : ''}`}
+                  style={{
+                    backgroundColor: activeTab === tab ? colors.cultured : 'rgba(8, 9, 10, 0.2)',
+                    color: activeTab === tab ? colors.vampireBlack : colors.cultured
                   }}
-                />
-              </button>
-            ))}
-          </div>
+                >
+                  {tab === 'pipeline' ? 'Pipeline Value' : 'Time Savings'}
+                  <div 
+                    className={`absolute left-0 bottom-0 h-1 rounded-b-lg transition-all duration-500 ease-out
+                      ${activeTab === tab ? 'w-full' : 'w-0'}`}
+                    style={{ 
+                      backgroundColor: activeTab === tab ? colors.argent : 'transparent'
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
 
-          <div className="mt-6 transform transition-all duration-500">
-            {activeTab === 'pipeline' ? <PipelineCalculator /> : <TimeSavingsCalculator />}
+            <div className="mt-6 transform transition-all duration-500">
+              {activeTab === 'pipeline' ? <PipelineCalculator /> : <TimeSavingsCalculator />}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -87,15 +105,15 @@ function Calculator({ children, title, description }) {
     <div
       style={{ 
         backgroundColor: 'rgba(8, 9, 10, 0.15)',
-        borderColor: colors.vampireBlack 
+        borderColor: colors.argent 
       }}
       className="rounded-xl shadow-2xl p-8 border border-opacity-20"
     >
       <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-3" style={{ color: colors.vampireBlack }}>
+        <h2 className="text-3xl font-bold mb-3" style={{ color: colors.cultured }}>
           {title}
         </h2>
-        <p style={{ color: colors.vampireBlack }} className="font-medium text-lg">
+        <p style={{ color: colors.cultured }} className="font-medium text-lg">
           {description}
         </p>
       </div>
@@ -173,7 +191,7 @@ function PipelineCalculator() {
     >
       <div className="space-y-12">
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold" style={{ color: colors.vampireBlack }}>
+          <h3 className="text-2xl font-bold" style={{ color: colors.cultured }}>
             Stage 1: Pipeline Value
           </h3>
           
@@ -232,7 +250,7 @@ function PipelineCalculator() {
         </div>
 
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold" style={{ color: colors.vampireBlack }}>
+          <h3 className="text-2xl font-bold" style={{ color: colors.cultured }}>
             Stage 2: ROI Calculation
           </h3>
           
@@ -262,31 +280,31 @@ function ResultsCard({ monthlyValue, annualValue, subtitle, label = '' }) {
   return (
     <div 
       className="rounded-lg p-6 transform transition-all duration-300 hover:scale-105" 
-      style={{ backgroundColor: colors.cultured }}
+      style={{ backgroundColor: colors.vampireBlack }}
     >
       <div className="grid grid-cols-1 gap-6">
         <div 
           className="border-b pb-4"
           style={{ borderColor: colors.gray[500] }}
         >
-          <div style={{ color: colors.vampireBlack }} className="text-sm font-medium">
+          <div style={{ color: colors.cultured }} className="text-sm font-medium">
             Monthly {label}
           </div>
-          <div className="text-3xl font-bold" style={{ color: colors.vampireBlack }}>
+          <div className="text-3xl font-bold" style={{ color: colors.cultured }}>
             ${monthlyValue.toLocaleString()}
           </div>
         </div>
         <div className="pt-2">
           <div 
-            style={{ color: colors.vampireBlack }} 
+            style={{ color: colors.cultured }} 
             className="text-sm font-medium uppercase tracking-wider"
           >
             Annual {label}
           </div>
-          <div className="text-4xl font-bold" style={{ color: colors.vampireBlack }}>
+          <div className="text-4xl font-bold" style={{ color: colors.cultured }}>
             ${annualValue.toLocaleString()}
           </div>
-          <div className="mt-2 text-sm" style={{ color: colors.gray[400] }}>
+          <div className="mt-2 text-sm" style={{ color: colors.gray[600] }}>
             {subtitle}
           </div>
         </div>
@@ -311,29 +329,29 @@ function SliderInput({
       <div className="flex items-center justify-between mb-3">
         <label 
           className="flex items-center text-base font-medium" 
-          style={{ color: colors.vampireBlack }}
+          style={{ color: colors.cultured }}
         >
           {label}
           {tooltip && (
             <div className="relative ml-2">
               <Info 
-                className="w-4 h-4 transition-colors duration-200 hover:text-vampireBlack" 
-                style={{ color: colors.vampireBlack }} 
+                className="w-4 h-4 transition-colors duration-200 hover:text-cultured" 
+                style={{ color: colors.cultured }} 
               />
               <div 
                 className="invisible group-hover:visible absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-3 rounded-lg z-10 text-sm"
-                style={{ backgroundColor: colors.cultured, color: colors.vampireBlack }}
+                style={{ backgroundColor: colors.vampireBlack, color: colors.cultured }}
               >
                 {tooltip}
                 <div 
                   className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45" 
-                  style={{ backgroundColor: colors.cultured }}
+                  style={{ backgroundColor: colors.vampireBlack }}
                 />
               </div>
             </div>
           )}
         </label>
-        <span className="font-bold text-lg" style={{ color: colors.vampireBlack }}>
+        <span className="font-bold text-lg" style={{ color: colors.cultured }}>
           {unit === '$' ? `$${format(value)}` : `${format(value)}${unit}`}
         </span>
       </div>
@@ -348,7 +366,7 @@ function SliderInput({
         className="w-full h-2 rounded-lg appearance-none cursor-pointer focus:outline-none transition-all duration-200"
         style={{
           backgroundColor: 'rgba(8, 9, 10, 0.1)',
-          backgroundImage: `linear-gradient(to right, ${colors.vampireBlack} ${(value - min) / (max - min) * 100}%, rgba(8, 9, 10, 0.1) ${(value - min) / (max - min) * 100}%)`,
+          backgroundImage: `linear-gradient(to right, ${colors.cultured} ${(value - min) / (max - min) * 100}%, rgba(8, 9, 10, 0.1) ${(value - min) / (max - min) * 100}%)`,
           WebkitAppearance: 'none',
           height: '4px',
           margin: '10px 0',
@@ -362,7 +380,7 @@ function SliderInput({
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: ${colors.vampireBlack};
+          background: ${colors.cultured};
           cursor: pointer;
           transition: all 0.2s ease-in-out;
           box-shadow: 0 0 10px rgba(0,0,0,0.3);
@@ -374,7 +392,7 @@ function SliderInput({
           height: 20px;
           border: none;
           border-radius: 50%;
-          background: ${colors.vampireBlack};
+          background: ${colors.cultured};
           cursor: pointer;
           transition: all 0.2s ease-in-out;
           box-shadow: 0 0 10px rgba(0,0,0,0.3);
@@ -396,7 +414,7 @@ function SliderInput({
         input[type='range']::-webkit-slider-thumb:hover,
         input[type='range']::-moz-range-thumb:hover {
           transform: scale(1.2);
-          background: ${colors.vampireBlack};
+          background: ${colors.argent};
         }
 
         input[type='range']:active::-webkit-slider-thumb,

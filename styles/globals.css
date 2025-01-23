@@ -1,18 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  --vampire-black: #08090A;
-  --cultured: #F7F8F8;
-  --argent: #C0C0C0;
+  color-scheme: light !important; /* Enforces light color scheme */
 }
 
+html {
+  color-scheme: light !important; /* Enforces light color scheme */
+  forced-color-adjust: none; /* Prevents automatic color adjustments */
+  background-color: transparent !important; /* Transparent background */
+}s
+
 body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to bottom, var(--vampire-black), #1a1a1a);
-  min-height: 100vh;
-  color: var(--cultured);
-  font-family: 'Inter', sans-serif;
+  background-color: transparent !important; /* Transparent background */
+  color: #08090A !important; /* Text color */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light !important; /* Enforces light color scheme even in dark mode */
+  }
+  
+  html, body {
+    background-color: transparent !important; /* Transparent background */
+    color: #08090A !important; /* Text color */
+  }
 }
