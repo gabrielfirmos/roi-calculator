@@ -1,25 +1,32 @@
 :root {
-  color-scheme: light !important; /* Enforces light color scheme */
+  /* Force light color scheme (ignores user dark-mode preferences) */
+  color-scheme: light !important;
+  /* Prevents browsers from auto-adjusting colors in forced modes */
+  forced-color-adjust: none;
+  /* (Optional) You can include default variables here if needed */
 }
 
-html {
-  color-scheme: light !important; /* Enforces light color scheme */
-  forced-color-adjust: none; /* Prevents automatic color adjustments */
-  background-color: transparent !important; /* Transparent background */
-}s
-
+html,
 body {
-  background-color: transparent !important; /* Transparent background */
-  color: #08090A !important; /* Text color */
+  /* Ensure transparent background */
+  background-color: transparent !important;
+  /* Remove default margins/padding if desired */
+  margin: 0;
+  padding: 0;
+  /* Set your default text color */
+  color: #08090A !important;
 }
 
+/* If you really want to override dark-mode specifically, 
+   you can keep this media query. Otherwise, you can remove it. */
 @media (prefers-color-scheme: dark) {
   :root {
-    color-scheme: light !important; /* Enforces light color scheme even in dark mode */
+    /* Force light scheme again even if user is in dark mode */
+    color-scheme: light !important;
   }
-  
-  html, body {
-    background-color: transparent !important; /* Transparent background */
-    color: #08090A !important; /* Text color */
+  html,
+  body {
+    background-color: transparent !important;
+    color: #08090A !important;
   }
 }
