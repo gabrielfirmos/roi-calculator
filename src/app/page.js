@@ -207,98 +207,121 @@ function PipelineCalculator() {
       title="Pipeline Value & ROI Calculator"
       description="Calculate potential revenue from new leads and see how final ROI depends on your closing rate."
     >
-      <div className="space-y-12">
-        <div className="space-y-8">
-          <h3 
-            className="text-2xl font-bold"
-            style={{ color: colors.cultured }}
-          >
-            Stage 1: Pipeline Value
-          </h3>
-          
-          <div className="space-y-6">
-            <SliderInput
-              label="Monthly Discovery Calls"
-              value={monthlyCalls}
-              onChange={setMonthlyCalls}
-              max={50}
-              step={1}
-              unit=" calls"
-              tooltip="Number of prospective clients who agree to learn about your services."
-            />
+      <div className="relative">
+        {/* Vertical Divider - Only visible on desktop */}
+        <div 
+          className="absolute hidden md:block top-0 left-1/2 h-full w-px transform -translate-x-1/2"
+          style={{ 
+            backgroundColor: colors.argent,
+            opacity: 0.3 
+          }}
+        />
+        
+        {/* Horizontal Divider - Only visible on mobile */}
+        <div 
+          className="block md:hidden w-full h-px my-8"
+          style={{ 
+            backgroundColor: colors.argent,
+            opacity: 0.3 
+          }}
+        />
 
-            <SliderInput
-              label="Call Show Rate"
-              value={callShow}
-              onChange={setCallShow}
-              min={75}
-              max={100}
-              step={1}
-              unit="%"
-              tooltip="The proportion of leads who show up for meetings."
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Stage 1: Pipeline Value */}
+          <div className="space-y-8 md:pr-12">
+            <h3 
+              className="text-2xl font-bold"
+              style={{ color: colors.cultured }}
+            >
+              Stage 1: Pipeline Value
+            </h3>
+            
+            <div className="space-y-6">
+              <SliderInput
+                label="Monthly Discovery Calls"
+                value={monthlyCalls}
+                onChange={setMonthlyCalls}
+                max={50}
+                step={1}
+                unit=" calls"
+                tooltip="Number of prospective clients who agree to learn about your services."
+              />
 
-            <SliderInput
-              label="Qualification Rate"
-              value={qualification}
-              onChange={setQualification}
-              min={50}
-              max={100}
-              step={1}
-              unit="%"
-              tooltip="Of those who attend, how many match your target criteria."
-            />
+              <SliderInput
+                label="Call Show Rate"
+                value={callShow}
+                onChange={setCallShow}
+                min={75}
+                max={100}
+                step={1}
+                unit="%"
+                tooltip="The proportion of leads who show up for meetings."
+              />
 
-            <SliderInput
-              label="Client Lifetime Value"
-              value={lifetimeValue}
-              onChange={setLifetimeValue}
-              min={10000}
-              max={300000}
-              step={5000}
-              unit="$"
-              tooltip="The total revenue expected per client over their entire engagement period."
-              format={val => val.toLocaleString()}
+              <SliderInput
+                label="Qualification Rate"
+                value={qualification}
+                onChange={setQualification}
+                min={50}
+                max={100}
+                step={1}
+                unit="%"
+                tooltip="Of those who attend, how many match your target criteria."
+              />
+
+              <SliderInput
+                label="Client Lifetime Value"
+                value={lifetimeValue}
+                onChange={setLifetimeValue}
+                min={10000}
+                max={300000}
+                step={5000}
+                unit="$"
+                tooltip="The total revenue expected per client over their entire engagement period."
+                format={val => val.toLocaleString()}
+              />
+            </div>
+
+            <ResultsCard 
+              monthlyValue={monthlyPipelineValue}
+              annualValue={annualPipelineValue}
+              subtitle="Projected yearly pipeline value based on current metrics"
+              label="Pipeline Value"
             />
           </div>
 
-          <ResultsCard 
-            monthlyValue={monthlyPipelineValue}
-            annualValue={annualPipelineValue}
-            subtitle="Projected yearly pipeline value based on current metrics"
-            label="Pipeline Value"
-          />
-        </div>
+          {/* Stage 2: ROI Calculation */}
+          <div className="space-y-8 md:pl-12">
+            <h3 
+              className="text-2xl font-bold"
+              style={{ color: colors.cultured }}
+            >
+              Stage 2: ROI Calculation
+            </h3>
+            
+            <SliderInput
+              label="Closing Rate"
+              value={closingRate}
+              onChange={setClosingRate}
+              max={70}
+              step={1}
+              unit="%"
+              tooltip="The percentage of qualified prospects you successfully convert into paying clients."
+            />
 
-        <div className="space-y-8">
-          <h3 
-            className="text-2xl font-bold"
-            style={{ color: colors.cultured }}
-          >
-            Stage 2: ROI Calculation
-          </h3>
-          
-          <SliderInput
-            label="Closing Rate"
-            value={closingRate}
-            onChange={setClosingRate}
-            max={70}
-            step={1}
-            unit="%"
-            tooltip="The percentage of qualified prospects you successfully convert into paying clients."
-          />
-
-          <ResultsCard 
-            monthlyValue={monthlyROI}
-            annualValue={annualROI}
-            subtitle="Projected yearly revenue based on closing rate"
-            label="ROI"
-          />
+            <ResultsCard 
+              monthlyValue={monthlyROI}
+              annualValue={annualROI}
+              subtitle="Projected yearly revenue based on closing rate"
+              label="ROI"
+            />
+          </div>
         </div>
       </div>
     </Calculator>
   );
 }
+
 
 function ResultsCard({ monthlyValue, annualValue, subtitle, label = '' }) {
   return (

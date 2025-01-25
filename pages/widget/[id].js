@@ -56,7 +56,7 @@ export default function CalculatorsPage() {
         style={{ 
           fontFamily: 'Inter, sans-serif',
           // Transparent so parent page background (Webflow) is visible
-          backgroundColor: 'transparent',
+          backgroundColor: colors.vampireBlack,
           isolation: 'isolate',
           // Optionally set a default text color across the entire container:
           color: colors.cultured
@@ -202,20 +202,32 @@ function PipelineCalculator() {
   const monthlyROI = pipelineValue * (closingRate / 100);
   const annualROI = monthlyROI * 12;
 
+  const StageContainer = ({ children, title }) => (
+    <div 
+      className="rounded-xl p-6 border border-opacity-20 space-y-6"
+      style={{ 
+        backgroundColor: colors.vampireBlack,
+        borderColor: colors.argent
+      }}
+    >
+      <h3 
+        className="text-2xl font-bold"
+        style={{ color: colors.cultured }}
+      >
+        {title}
+      </h3>
+      {children}
+    </div>
+  );
+
   return (
     <Calculator
       title="Pipeline Value & ROI Calculator"
       description="Calculate potential revenue from new leads and see how final ROI depends on your closing rate."
     >
-      <div className="space-y-12">
-        <div className="space-y-8">
-          <h3 
-            className="text-2xl font-bold"
-            style={{ color: colors.cultured }}
-          >
-            Stage 1: Pipeline Value
-          </h3>
-          
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Stage 1: Pipeline Value */}
+        <StageContainer title="Stage 1: Pipeline Value">
           <div className="space-y-6">
             <SliderInput
               label="Monthly Discovery Calls"
@@ -268,16 +280,10 @@ function PipelineCalculator() {
             subtitle="Projected yearly pipeline value based on current metrics"
             label="Pipeline Value"
           />
-        </div>
+        </StageContainer>
 
-        <div className="space-y-8">
-          <h3 
-            className="text-2xl font-bold"
-            style={{ color: colors.cultured }}
-          >
-            Stage 2: ROI Calculation
-          </h3>
-          
+        {/* Stage 2: ROI Calculation */}
+        <StageContainer title="Stage 2: ROI Calculation">
           <SliderInput
             label="Closing Rate"
             value={closingRate}
@@ -294,7 +300,7 @@ function PipelineCalculator() {
             subtitle="Projected yearly revenue based on closing rate"
             label="ROI"
           />
-        </div>
+        </StageContainer>
       </div>
     </Calculator>
   );
