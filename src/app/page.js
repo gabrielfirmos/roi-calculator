@@ -203,36 +203,29 @@ function PipelineCalculator() {
   const annualROI = monthlyROI * 12;
 
   return (
-    <Calculator
-      title="Pipeline Value & ROI Calculator"
-      description="Calculate potential revenue from new leads and see how final ROI depends on your closing rate."
-    >
-      <div className="relative">
-        {/* Vertical Divider - Only visible on desktop */}
-        <div 
-          className="absolute hidden md:block top-0 left-1/2 h-full w-px transform -translate-x-1/2"
-          style={{ 
-            backgroundColor: colors.argent,
-            opacity: 0.3 
-          }}
-        />
-        
-        {/* Horizontal Divider - Only visible on mobile */}
-        <div 
-          className="block md:hidden w-full h-px my-8"
-          style={{ 
-            backgroundColor: colors.argent,
-            opacity: 0.3 
-          }}
-        />
+    <div className="space-y-6">
+      {/* Title and description */}
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold mb-3 text-cultured">
+          Pipeline Value & ROI Calculator
+        </h2>
+        <p className="font-medium text-lg text-cultured max-w-2xl mx-auto">
+          Calculate potential revenue from new leads and see how final ROI depends on your closing rate.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Stage 1: Pipeline Value */}
-          <div className="space-y-8 md:pr-12">
-            <h3 
-              className="text-2xl font-bold"
-              style={{ color: colors.cultured }}
-            >
+      {/* Two-column layout for stages */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Stage 1: Pipeline Value */}
+        <div
+          className="rounded-xl p-8 border border-opacity-20 h-full"
+          style={{ 
+            backgroundColor: colors.vampireBlack,
+            borderColor: colors.argent
+          }}
+        >
+          <div className="space-y-8">
+            <h3 className="text-2xl font-bold text-cultured">
               Stage 1: Pipeline Value
             </h3>
             
@@ -289,13 +282,18 @@ function PipelineCalculator() {
               label="Pipeline Value"
             />
           </div>
+        </div>
 
-          {/* Stage 2: ROI Calculation */}
-          <div className="space-y-8 md:pl-12">
-            <h3 
-              className="text-2xl font-bold"
-              style={{ color: colors.cultured }}
-            >
+        {/* Stage 2: ROI Calculation */}
+        <div
+          className="rounded-xl p-8 border border-opacity-20 h-full"
+          style={{ 
+            backgroundColor: colors.vampireBlack,
+            borderColor: colors.argent
+          }}
+        >
+          <div className="space-y-8">
+            <h3 className="text-2xl font-bold text-cultured">
               Stage 2: ROI Calculation
             </h3>
             
@@ -318,9 +316,10 @@ function PipelineCalculator() {
           </div>
         </div>
       </div>
-    </Calculator>
+    </div>
   );
 }
+
 
 
 function ResultsCard({ monthlyValue, annualValue, subtitle, label = '' }) {
