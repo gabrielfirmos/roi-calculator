@@ -41,112 +41,68 @@ export default function CalculatorsPage() {
   }, [activeTab]);
 
   return (
-    <>
-      <Head></Head>
+    <div 
+      ref={contentRef}
+      className="min-h-screen w-full relative"
+      style={{ 
+        fontFamily: 'Inter, sans-serif',
+        backgroundColor: colors.vampireBlack,
+        isolation: 'isolate',
+        color: colors.cultured,
+        padding: '2rem 1rem'
+      }}
+    >
+      {/* Background gradient effects */}
       <div 
-        ref={contentRef}
-        className="min-h-screen"
-        style={{ 
-          fontFamily: 'Inter, sans-serif',
-          backgroundColor: colors.vampireBlack,
-          isolation: 'isolate',
-          color: colors.cultured
+        className="absolute inset-0 z-0"
+        style={{
+          background: `
+            radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%)
+          `,
+          pointerEvents: 'none'
         }}
-      >
-        <div className="max-w-4xl mx-auto p-4 md:p-8">
+      />
+
+      <div className="relative z-10 mx-auto" style={{ maxWidth: '60%' }}>
+        <div style={{ marginBottom: '2rem' }}>
           <div style={{ 
             display: 'flex',
             justifyContent: 'center',
-            marginBottom: '-30px', 
-            marginTop:'-30px' // Negative margin to pull heading up
+            gap: '24px',
+            marginBottom: '24px'
           }}>
-            <img 
-              src="https://storage.googleapis.com/firmos-pics/FirmOS%20Logo%20-%20White.png"
-              alt="FirmOS Logo"
-              style={{ 
-                height: '220px',
-                width: 'auto',
-                objectFit: 'contain'
-              }}
-            />
-          </div>
-          <div 
-            className="text-center"
-            style={{ marginBottom: '30px' }}
-          >
-            <h3 
-              className="mb-2"
-              style={{ 
-                color: colors.cultured,
-                fontSize: '56px',
-                fontWeight: 500,
-                lineHeight: '1.2'
-              }}
-            >
-              ROI Calculators
-            </h3>
-            <p 
-              style={{ 
-                color: colors.argent,
-                fontSize: '17px',
-                fontWeight: 'normal',
-                maxWidth: '600px',
-                margin: '0 auto'
-              }}
-            >
-              Calculate potential returns and savings with our interactive calculators
-            </p>
+            {['pipeline', 'time'].map((tab) => {
+              const isActive = activeTab === tab;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className="group relative px-6 py-3 rounded-lg font-normal transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: isActive ? colors.vampireBlack : 'rgba(255, 255, 255, 0.15)',
+                    color: colors.cultured,
+                    border: isActive ? `1px solid ${colors.argent}` : 'none'
+                  }}
+                >
+                  {tab === 'pipeline' ? 'Pipeline Value' : 'Time Savings'}
+                  <div 
+                    className={`absolute left-0 bottom-0 h-1 rounded-b-lg transition-all duration-500 ease-out
+                      ${isActive ? 'w-full' : 'w-0'}`}
+                    style={{ backgroundColor: isActive ? colors.argent : 'transparent' }}
+                  />
+                </button>
+              );
+            })}
           </div>
 
-          {/* Tabs Section */}
-          <div style={{ marginBottom: '60px' }}>
-            <div style={{ 
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '24px',
-              marginBottom: '24px'
-            }}>
-              {['pipeline', 'time'].map((tab) => {
-                const isActive = activeTab === tab;
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className="group relative px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105"
-                    style={{
-                      backgroundColor: isActive 
-                        ? colors.vampireBlack 
-                        : 'rgba(255, 255, 255, 0.15)',
-                      color: colors.cultured,
-                      border: isActive 
-                        ? `1px solid ${colors.argent}`
-                        : 'none'
-                    }}
-                  >
-                    {tab === 'pipeline' ? 'Pipeline Value' : 'Time Savings'}
-                    <div 
-                      className={`absolute left-0 bottom-0 h-1 rounded-b-lg transition-all duration-500 ease-out
-                        ${isActive ? 'w-full' : 'w-0'}`}
-                      style={{ 
-                        backgroundColor: isActive ? colors.argent : 'transparent'
-                      }}
-                    />
-                  </button>
-                );
-              })}
-            </div>
-
-            <div style={{ 
-              marginTop: '24px',
-              transform: 'translate(0, 0)',
-              transition: 'all 500ms'
-            }}>
-              {activeTab === 'pipeline' ? <PipelineCalculator /> : <TimeSavingsCalculator />}
-            </div>
+          <div className="w-full">
+            {activeTab === 'pipeline' ? <PipelineCalculator /> : <TimeSavingsCalculator />}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -192,10 +148,10 @@ function TimeSavingsCalculator() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="md:col-span-1">
-          <h2 className="text-3xl font-normal mb-3 text-cultured">
+          <h2 className="text-3xl font-normal mb-3 text-cultured text-center">
             Time Savings ROI Calculator
           </h2>
-          <p className="font-normal text-lg text-cultured" style={{ color: colors.argent }}>
+          <p className="font-normal text-lg text-cultured text-center" style={{ color: colors.argent }}>
             See how many hours per week you can reclaim with AI automation, and the direct financial impact.
           </p>
         </div>
@@ -266,10 +222,10 @@ function PipelineCalculator() {
       {/* Title and description side by side with calculator */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="md:col-span-1">
-            <h2 className="text-3xl font-normal mb-3 text-cultured">
+            <h2 className="text-3xl font-normal text-center mb-3 text-cultured">
           Pipeline Value & ROI Calculator
             </h2>
-            <p className="font-normal text-lg text-cultured" style={{ color: colors.argent }}>
+            <p className="font-normal text-lg text-center text-cultured" style={{ color: colors.argent }}>
           Calculate potential revenue from new leads and see how final ROI depends on your closing rate.
             </p>
           </div>
