@@ -46,33 +46,30 @@ export default function CalculatorsPage() {
       className="min-h-screen w-full relative"
       style={{ 
         fontFamily: 'Inter, sans-serif',
-        backgroundColor: colors.vampireBlack,
-        isolation: 'isolate',
         color: colors.cultured,
-        padding: '2rem 1rem'
+        padding: '2rem 1rem',
+        background: `
+          radial-gradient(circle at 20% 25%, rgba(41, 41, 41, 0.05) 0%, transparent 10%),
+          radial-gradient(circle at 75% 44%, rgba(17, 17, 17, 0.15) 0%, transparent 10%),
+          radial-gradient(circle at 50% 50%, rgba(28, 28, 28, 0.1) 0%, transparent 10%),
+          linear-gradient(180deg, #000000 0%, #111111 100%)
+        `,
+        backgroundBlendMode: 'multiply',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Background gradient effects */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          background: `
-            radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-            radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-            radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%)
-          `,
-          pointerEvents: 'none'
-        }}
-      />
-
+      {/* The rest of your content/code goes here */}
       <div className="relative z-10 mx-auto" style={{ maxWidth: '60%' }}>
         <div style={{ marginBottom: '2rem' }}>
-          <div style={{ 
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '24px',
-            marginBottom: '24px'
-          }}>
+          <div 
+            style={{ 
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '24px',
+              marginBottom: '24px'
+            }}
+          >
             {['pipeline', 'time'].map((tab) => {
               const isActive = activeTab === tab;
               return (
@@ -81,9 +78,13 @@ export default function CalculatorsPage() {
                   onClick={() => setActiveTab(tab)}
                   className="group relative px-6 py-3 rounded-lg font-normal transition-all duration-300 hover:scale-105"
                   style={{
-                    backgroundColor: isActive ? colors.vampireBlack : 'rgba(255, 255, 255, 0.15)',
+                    backgroundColor: isActive
+                      ? 'rgba(0, 0, 0, 0.5)'
+                      : 'rgba(255, 255, 255, 0.1)',
                     color: colors.cultured,
-                    border: isActive ? `1px solid ${colors.argent}` : 'none'
+                    border: isActive
+                      ? `1px solid ${colors.argent}`
+                      : 'none'
                   }}
                 >
                   {tab === 'pipeline' ? 'Pipeline Value' : 'Time Savings'}
@@ -96,16 +97,18 @@ export default function CalculatorsPage() {
               );
             })}
           </div>
-
+  
           <div className="w-full">
-            {activeTab === 'pipeline' ? <PipelineCalculator /> : <TimeSavingsCalculator />}
+            {activeTab === 'pipeline'
+              ? <PipelineCalculator />
+              : <TimeSavingsCalculator />
+            }
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 function Calculator({ children, title, description }) {
   return (
     <div
