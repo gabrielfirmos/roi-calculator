@@ -202,109 +202,125 @@ function PipelineCalculator() {
   const monthlyROI = pipelineValue * (closingRate / 100);
   const annualROI = monthlyROI * 12;
 
-  const StageContainer = ({ children, title }) => (
-    <div 
-      className="rounded-xl p-6 border border-opacity-20 space-y-6"
-      style={{ 
-        backgroundColor: colors.vampireBlack,
-        borderColor: colors.argent
-      }}
-    >
-      <h3 
-        className="text-2xl font-bold"
-        style={{ color: colors.cultured }}
-      >
-        {title}
-      </h3>
-      {children}
-    </div>
-  );
-
   return (
-    <Calculator
-      title="Pipeline Value & ROI Calculator"
-      description="Calculate potential revenue from new leads and see how final ROI depends on your closing rate."
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="space-y-6">
+      {/* Title and description */}
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold mb-3 text-cultured">
+          Pipeline Value & ROI Calculator
+        </h2>
+        <p className="font-medium text-lg text-cultured max-w-2xl mx-auto">
+          Calculate potential revenue from new leads and see how final ROI depends on your closing rate.
+        </p>
+      </div>
+
+      {/* Two-column layout for stages */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Stage 1: Pipeline Value */}
-        <StageContainer title="Stage 1: Pipeline Value">
-          <div className="space-y-6">
-            <SliderInput
-              label="Monthly Discovery Calls"
-              value={monthlyCalls}
-              onChange={setMonthlyCalls}
-              max={50}
-              step={1}
-              unit=" calls"
-              tooltip="Number of prospective clients who agree to learn about your services."
-            />
+        <div
+          className="rounded-xl p-8 border border-opacity-20 h-full"
+          style={{ 
+            backgroundColor: colors.vampireBlack,
+            borderColor: colors.argent
+          }}
+        >
+          <div className="space-y-8">
+            <h3 className="text-2xl font-bold text-cultured">
+              Stage 1: Pipeline Value
+            </h3>
+            
+            <div className="space-y-6">
+              <SliderInput
+                label="Monthly Discovery Calls"
+                value={monthlyCalls}
+                onChange={setMonthlyCalls}
+                max={50}
+                step={1}
+                unit=" calls"
+                tooltip="Number of prospective clients who agree to learn about your services."
+              />
 
-            <SliderInput
-              label="Call Show Rate"
-              value={callShow}
-              onChange={setCallShow}
-              min={75}
-              max={100}
-              step={1}
-              unit="%"
-              tooltip="The proportion of leads who show up for meetings."
-            />
+              <SliderInput
+                label="Call Show Rate"
+                value={callShow}
+                onChange={setCallShow}
+                min={75}
+                max={100}
+                step={1}
+                unit="%"
+                tooltip="The proportion of leads who show up for meetings."
+              />
 
-            <SliderInput
-              label="Qualification Rate"
-              value={qualification}
-              onChange={setQualification}
-              min={50}
-              max={100}
-              step={1}
-              unit="%"
-              tooltip="Of those who attend, how many match your target criteria."
-            />
+              <SliderInput
+                label="Qualification Rate"
+                value={qualification}
+                onChange={setQualification}
+                min={50}
+                max={100}
+                step={1}
+                unit="%"
+                tooltip="Of those who attend, how many match your target criteria."
+              />
 
-            <SliderInput
-              label="Client Lifetime Value"
-              value={lifetimeValue}
-              onChange={setLifetimeValue}
-              min={10000}
-              max={300000}
-              step={5000}
-              unit="$"
-              tooltip="The total revenue expected per client over their entire engagement period."
-              format={val => val.toLocaleString()}
+              <SliderInput
+                label="Client Lifetime Value"
+                value={lifetimeValue}
+                onChange={setLifetimeValue}
+                min={10000}
+                max={300000}
+                step={5000}
+                unit="$"
+                tooltip="The total revenue expected per client over their entire engagement period."
+                format={val => val.toLocaleString()}
+              />
+            </div>
+
+            <ResultsCard 
+              monthlyValue={monthlyPipelineValue}
+              annualValue={annualPipelineValue}
+              subtitle="Projected yearly pipeline value based on current metrics"
+              label="Pipeline Value"
             />
           </div>
-
-          <ResultsCard 
-            monthlyValue={monthlyPipelineValue}
-            annualValue={annualPipelineValue}
-            subtitle="Projected yearly pipeline value based on current metrics"
-            label="Pipeline Value"
-          />
-        </StageContainer>
+        </div>
 
         {/* Stage 2: ROI Calculation */}
-        <StageContainer title="Stage 2: ROI Calculation">
-          <SliderInput
-            label="Closing Rate"
-            value={closingRate}
-            onChange={setClosingRate}
-            max={70}
-            step={1}
-            unit="%"
-            tooltip="The percentage of qualified prospects you successfully convert into paying clients."
-          />
+        <div
+          className="rounded-xl p-8 border border-opacity-20 h-full"
+          style={{ 
+            backgroundColor: colors.vampireBlack,
+            borderColor: colors.argent
+          }}
+        >
+          <div className="space-y-8">
+            <h3 className="text-2xl font-bold text-cultured">
+              Stage 2: ROI Calculation
+            </h3>
+            
+            <SliderInput
+              label="Closing Rate"
+              value={closingRate}
+              onChange={setClosingRate}
+              max={70}
+              step={1}
+              unit="%"
+              tooltip="The percentage of qualified prospects you successfully convert into paying clients."
+            />
 
-          <ResultsCard 
-            monthlyValue={monthlyROI}
-            annualValue={annualROI}
-            subtitle="Projected yearly revenue based on closing rate"
-            label="ROI"
-          />
-        </StageContainer>
+            <ResultsCard 
+              monthlyValue={monthlyROI}
+              annualValue={annualROI}
+              subtitle="Projected yearly revenue based on closing rate"
+              label="ROI"
+            />
+          </div>
+        </div>
       </div>
-    </Calculator>
+    </div>
   );
 }
+
+
 
 function ResultsCard({ monthlyValue, annualValue, subtitle, label = '' }) {
   return (

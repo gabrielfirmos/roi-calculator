@@ -22,7 +22,6 @@ export default function CalculatorsPage() {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    // Dynamically adjust iframe height
     const sendHeight = () => {
       if (contentRef.current) {
         const height = contentRef.current.scrollHeight;
@@ -43,28 +42,70 @@ export default function CalculatorsPage() {
 
   return (
     <>
-      <Head>
-        {/* 
-          Remove ANY color-scheme forcing, so it won't invert on system changes.
-          (No <meta> or :root { color-scheme })
-        */}
-      </Head>
-
+      <Head></Head>
       <div 
         ref={contentRef}
         className="min-h-screen"
         style={{ 
           fontFamily: 'Inter, sans-serif',
-          // Transparent so parent page background (Webflow) is visible
           backgroundColor: colors.vampireBlack,
           isolation: 'isolate',
-          // Optionally set a default text color across the entire container:
           color: colors.cultured
         }}
       >
-        <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-8">
-          <div className="space-y-8">
-            <div className="flex justify-center gap-4">
+        <div className="max-w-4xl mx-auto p-4 md:p-8">
+          <div style={{ 
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '-30px', 
+            marginTop:'-30px' // Negative margin to pull heading up
+          }}>
+            <img 
+              src="https://storage.googleapis.com/firmos-pics/FirmOS%20Logo%20-%20White.png"
+              alt="FirmOS Logo"
+              style={{ 
+                height: '220px',
+                width: 'auto',
+                objectFit: 'contain'
+              }}
+            />
+          </div>
+          <div 
+            className="text-center"
+            style={{ marginBottom: '30px' }}
+          >
+            <h3 
+              className="mb-2"
+              style={{ 
+                color: colors.cultured,
+                fontSize: '56px',
+                fontWeight: 500,
+                lineHeight: '1.2'
+              }}
+            >
+              ROI Calculators
+            </h3>
+            <p 
+              style={{ 
+                color: colors.argent,
+                fontSize: '17px',
+                fontWeight: 'normal',
+                maxWidth: '600px',
+                margin: '0 auto'
+              }}
+            >
+              Calculate potential returns and savings with our interactive calculators
+            </p>
+          </div>
+
+          {/* Tabs Section */}
+          <div style={{ marginBottom: '60px' }}>
+            <div style={{ 
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '24px',
+              marginBottom: '24px'
+            }}>
               {['pipeline', 'time'].map((tab) => {
                 const isActive = activeTab === tab;
                 return (
@@ -73,11 +114,9 @@ export default function CalculatorsPage() {
                     onClick={() => setActiveTab(tab)}
                     className="group relative px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105"
                     style={{
-                      // Make the active tab background #08090A (dark)
                       backgroundColor: isActive 
                         ? colors.vampireBlack 
                         : 'rgba(255, 255, 255, 0.15)',
-                      // Light text on dark background
                       color: colors.cultured,
                       border: isActive 
                         ? `1px solid ${colors.argent}`
@@ -85,8 +124,6 @@ export default function CalculatorsPage() {
                     }}
                   >
                     {tab === 'pipeline' ? 'Pipeline Value' : 'Time Savings'}
-
-                    {/* Animated bottom border when active */}
                     <div 
                       className={`absolute left-0 bottom-0 h-1 rounded-b-lg transition-all duration-500 ease-out
                         ${isActive ? 'w-full' : 'w-0'}`}
@@ -99,7 +136,11 @@ export default function CalculatorsPage() {
               })}
             </div>
 
-            <div className="mt-6 transform transition-all duration-500">
+            <div style={{ 
+              marginTop: '24px',
+              transform: 'translate(0, 0)',
+              transition: 'all 500ms'
+            }}>
               {activeTab === 'pipeline' ? <PipelineCalculator /> : <TimeSavingsCalculator />}
             </div>
           </div>
@@ -148,39 +189,57 @@ function TimeSavingsCalculator() {
   const annualROI = weeklyROI * 52;
 
   return (
-    <Calculator
-      title="Time Savings ROI Calculator"
-      description="See how many hours per week you can reclaim with AI automation, and the direct financial impact."
-    >
-      <div className="space-y-8">
-        <SliderInput
-          label="Hours Saved Per Week"
-          value={hoursPerWeek}
-          onChange={setHoursPerWeek}
-          max={40}
-          step={1}
-          unit=" hours"
-          tooltip="These are the estimated hours freed each week by automating repetitive tasks."
-        />
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="md:col-span-1">
+          <h2 className="text-3xl font-normal mb-3 text-cultured">
+            Time Savings ROI Calculator
+          </h2>
+          <p className="font-normal text-lg text-cultured" style={{ color: colors.argent }}>
+            See how many hours per week you can reclaim with AI automation, and the direct financial impact.
+          </p>
+        </div>
 
-        <SliderInput
-          label="Hourly Billing Rate"
-          value={hourlyRate}
-          onChange={setHourlyRate}
-          min={200}
-          max={1000}
-          step={50}
-          unit="$"
-          tooltip="The average hourly fee you charge clients for your services."
-        />
+        <div className="md:col-span-2">
+          <div
+            className="rounded-xl p-8 border border-opacity-20"
+            style={{ 
+              backgroundColor: colors.vampireBlack,
+              borderColor: colors.argent
+            }}
+          >
+            <div className="space-y-8">
+              <SliderInput
+                label="Hours Saved Per Week"
+                value={hoursPerWeek}
+                onChange={setHoursPerWeek}
+                max={40}
+                step={1}
+                unit=" hours"
+                tooltip="These are the estimated hours freed each week by automating repetitive tasks."
+              />
 
-        <ResultsCard 
-          monthlyValue={monthlyROI}
-          annualValue={annualROI}
-          subtitle="Projected yearly savings based on current rates"
-        />
+              <SliderInput
+                label="Hourly Billing Rate"
+                value={hourlyRate}
+                onChange={setHourlyRate}
+                min={200}
+                max={1000}
+                step={50}
+                unit="$"
+                tooltip="The average hourly fee you charge clients for your services."
+              />
+
+              <ResultsCard 
+                monthlyValue={monthlyROI}
+                annualValue={annualROI}
+                subtitle="Projected yearly savings based on current rates"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-    </Calculator>
+    </div>
   );
 }
 
@@ -204,115 +263,117 @@ function PipelineCalculator() {
 
   return (
     <div className="space-y-6">
-      {/* Title and description */}
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-3 text-cultured">
+      {/* Title and description side by side with calculator */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="md:col-span-1">
+            <h2 className="text-3xl font-normal mb-3 text-cultured">
           Pipeline Value & ROI Calculator
-        </h2>
-        <p className="font-medium text-lg text-cultured max-w-2xl mx-auto">
+            </h2>
+            <p className="font-normal text-lg text-cultured" style={{ color: colors.argent }}>
           Calculate potential revenue from new leads and see how final ROI depends on your closing rate.
-        </p>
-      </div>
+            </p>
+          </div>
 
-      {/* Two-column layout for stages */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Stage 1: Pipeline Value */}
-        <div
-          className="rounded-xl p-8 border border-opacity-20 h-full"
-          style={{ 
-            backgroundColor: colors.vampireBlack,
-            borderColor: colors.argent
-          }}
-        >
-          <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-cultured">
-              Stage 1: Pipeline Value
-            </h3>
-            
-            <div className="space-y-6">
-              <SliderInput
-                label="Monthly Discovery Calls"
-                value={monthlyCalls}
-                onChange={setMonthlyCalls}
-                max={50}
-                step={1}
-                unit=" calls"
-                tooltip="Number of prospective clients who agree to learn about your services."
-              />
+          {/* Two-column layout for stages */}
+        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Stage 1: Pipeline Value */}
+          <div
+            className="rounded-xl p-8 border border-opacity-20 h-full"
+            style={{ 
+              backgroundColor: colors.vampireBlack,
+              borderColor: colors.argent
+            }}
+          >
+            <div className="space-y-8">
+              <h3 className="text-2xl font-normal text-cultured">
+                Stage 1: Pipeline Value
+              </h3>
+              
+              <div className="space-y-6">
+                <SliderInput
+                  label="Monthly Discovery Calls"
+                  value={monthlyCalls}
+                  onChange={setMonthlyCalls}
+                  max={50}
+                  step={1}
+                  unit=" calls"
+                  tooltip="Number of prospective clients who agree to learn about your services."
+                />
 
-              <SliderInput
-                label="Call Show Rate"
-                value={callShow}
-                onChange={setCallShow}
-                min={75}
-                max={100}
-                step={1}
-                unit="%"
-                tooltip="The proportion of leads who show up for meetings."
-              />
+                <SliderInput
+                  label="Call Show Rate"
+                  value={callShow}
+                  onChange={setCallShow}
+                  min={75}
+                  max={100}
+                  step={1}
+                  unit="%"
+                  tooltip="The proportion of leads who show up for meetings."
+                />
 
-              <SliderInput
-                label="Qualification Rate"
-                value={qualification}
-                onChange={setQualification}
-                min={50}
-                max={100}
-                step={1}
-                unit="%"
-                tooltip="Of those who attend, how many match your target criteria."
-              />
+                <SliderInput
+                  label="Qualification Rate"
+                  value={qualification}
+                  onChange={setQualification}
+                  min={50}
+                  max={100}
+                  step={1}
+                  unit="%"
+                  tooltip="Of those who attend, how many match your target criteria."
+                />
 
-              <SliderInput
-                label="Client Lifetime Value"
-                value={lifetimeValue}
-                onChange={setLifetimeValue}
-                min={10000}
-                max={300000}
-                step={5000}
-                unit="$"
-                tooltip="The total revenue expected per client over their entire engagement period."
-                format={val => val.toLocaleString()}
+                <SliderInput
+                  label="Client Lifetime Value"
+                  value={lifetimeValue}
+                  onChange={setLifetimeValue}
+                  min={10000}
+                  max={300000}
+                  step={5000}
+                  unit="$"
+                  tooltip="The total revenue expected per client over their entire engagement period."
+                  format={val => val.toLocaleString()}
+                />
+              </div>
+
+              <ResultsCard 
+                monthlyValue={monthlyPipelineValue}
+                annualValue={annualPipelineValue}
+                subtitle="Projected yearly pipeline value based on current metrics"
+                label="Pipeline Value"
               />
             </div>
-
-            <ResultsCard 
-              monthlyValue={monthlyPipelineValue}
-              annualValue={annualPipelineValue}
-              subtitle="Projected yearly pipeline value based on current metrics"
-              label="Pipeline Value"
-            />
           </div>
-        </div>
 
-        {/* Stage 2: ROI Calculation */}
-        <div
-          className="rounded-xl p-8 border border-opacity-20 h-full"
-          style={{ 
-            backgroundColor: colors.vampireBlack,
-            borderColor: colors.argent
-          }}
-        >
-          <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-cultured">
-              Stage 2: ROI Calculation
-            </h3>
-            
-            <SliderInput
-              label="Closing Rate"
-              value={closingRate}
-              onChange={setClosingRate}
-              max={70}
-              step={1}
-              unit="%"
-              tooltip="The percentage of qualified prospects you successfully convert into paying clients."
-            />
+          {/* Stage 2: ROI Calculation */}
+          <div
+            className="rounded-xl p-8 border border-opacity-20 h-full"
+            style={{ 
+              backgroundColor: colors.vampireBlack,
+              borderColor: colors.argent
+            }}
+          >
+            <div className="space-y-8">
+              <h3 className="text-2xl font-normal text-cultured">
+                Stage 2: ROI Calculation
+              </h3>
+              
+              <SliderInput
+                label="Closing Rate"
+                value={closingRate}
+                onChange={setClosingRate}
+                max={70}
+                step={1}
+                unit="%"
+                tooltip="The percentage of qualified prospects you successfully convert into paying clients."
+              />
 
-            <ResultsCard 
-              monthlyValue={monthlyROI}
-              annualValue={annualROI}
-              subtitle="Projected yearly revenue based on closing rate"
-              label="ROI"
-            />
+              <ResultsCard 
+                monthlyValue={monthlyROI}
+                annualValue={annualROI}
+                subtitle="Projected yearly revenue based on closing rate"
+                label="ROI"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -338,12 +399,12 @@ function ResultsCard({ monthlyValue, annualValue, subtitle, label = '' }) {
         >
           <div 
             style={{ color: colors.cultured }} 
-            className="text-sm font-medium"
+            className="text-sm font-normal"
           >
             Monthly {label}
           </div>
           <div 
-            className="text-3xl font-bold"
+            className="text-3xl font-normal"
             style={{ color: colors.cultured }}
           >
             ${monthlyValue.toLocaleString()}
@@ -352,12 +413,12 @@ function ResultsCard({ monthlyValue, annualValue, subtitle, label = '' }) {
         <div className="pt-2">
           <div 
             style={{ color: colors.cultured }} 
-            className="text-sm font-medium uppercase tracking-wider"
+            className="text-sm font-normal"
           >
             Annual {label}
           </div>
           <div 
-            className="text-4xl font-bold"
+            className="text-4xl font-normal"
             style={{ color: colors.cultured }}
           >
             ${annualValue.toLocaleString()}
