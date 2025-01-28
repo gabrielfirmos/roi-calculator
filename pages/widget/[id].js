@@ -22,7 +22,6 @@ export default function CalculatorsPage() {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    // Dynamically adjust iframe height
     const sendHeight = () => {
       if (contentRef.current) {
         const height = contentRef.current.scrollHeight;
@@ -42,73 +41,75 @@ export default function CalculatorsPage() {
   }, [activeTab]);
 
   return (
-    <>
-      <Head>
-        {/* 
-          Remove ANY color-scheme forcing, so it won't invert on system changes.
-          (No <meta> or :root { color-scheme })
-        */}
-      </Head>
-
-      <div 
+    <div 
         ref={contentRef}
-        className="min-h-screen"
+        className="min-h-screen w-full relative"
         style={{ 
           fontFamily: 'Inter, sans-serif',
-          // Transparent so parent page background (Webflow) is visible
-          backgroundColor: colors.vampireBlack,
-          isolation: 'isolate',
-          // Optionally set a default text color across the entire container:
-          color: colors.cultured
+          color: colors.cultured,
+          padding: '2rem 1rem',
+          // Replace existing gradient stack with simplified vertical gradient
+          background: `linear-gradient(180deg, 
+            rgba(192, 192, 192, 0.07) 0%,
+            rgba(192, 192, 192, 0.04) 10%,
+            rgba(192, 192, 192, 0.02) 15%,
+            rgba(192, 192, 192, 0.01) 20%,
+            ${colors.vampireBlack} 25%)`,
+          // Remove background blend mode since we're using a single gradient now
+          backgroundAttachment: 'fixed'  // Optional: Makes gradient cover entire page
         }}
       >
-        <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-8">
-          <div className="space-y-8">
-            <div className="flex justify-center gap-4">
-              {['pipeline', 'time'].map((tab) => {
-                const isActive = activeTab === tab;
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className="group relative px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105"
-                    style={{
-                      // Make the active tab background #08090A (dark)
-                      backgroundColor: isActive 
-                        ? colors.vampireBlack 
-                        : 'rgba(255, 255, 255, 0.15)',
-                      // Light text on dark background
-                      color: colors.cultured,
-                      border: isActive 
-                        ? `1px solid ${colors.argent}`
-                        : 'none'
-                    }}
-                  >
-                    {tab === 'pipeline' ? 'Pipeline Value' : 'Time Savings'}
 
-                    {/* Animated bottom border when active */}
-                    <div 
-                      className={`absolute left-0 bottom-0 h-1 rounded-b-lg transition-all duration-500 ease-out
-                        ${isActive ? 'w-full' : 'w-0'}`}
-                      style={{ 
-                        backgroundColor: isActive ? colors.argent : 'transparent'
-                      }}
-                    />
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="mt-6 transform transition-all duration-500">
-              {activeTab === 'pipeline' ? <PipelineCalculator /> : <TimeSavingsCalculator />}
-            </div>
+      {/* The rest of your content/code goes here */}
+      <div className="relative z-10 mx-auto" style={{ maxWidth: '60%' }}>
+        <div style={{ marginBottom: '2rem' }}>
+          <div 
+            style={{ 
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '24px',
+              marginBottom: '24px'
+            }}
+          >
+            {['pipeline', 'time'].map((tab) => {
+              const isActive = activeTab === tab;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className="group relative px-6 py-3 rounded-lg font-normal transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: isActive
+                      ? 'rgba(0, 0, 0, 0.5)'
+                      : 'rgba(255, 255, 255, 0.1)',
+                    color: colors.cultured,
+                    border: isActive
+                      ? `1px solid ${colors.argent}`
+                      : 'none'
+                  }}
+                >
+                  {tab === 'pipeline' ? 'Pipeline Value' : 'Time Savings'}
+                  <div 
+                    className={`absolute left-0 bottom-0 h-1 rounded-b-lg transition-all duration-500 ease-out
+                      ${isActive ? 'w-full' : 'w-0'}`}
+                    style={{ backgroundColor: isActive ? colors.argent : 'transparent' }}
+                  />
+                </button>
+              );
+            })}
+          </div>
+  
+          <div className="w-full">
+            {activeTab === 'pipeline'
+              ? <PipelineCalculator />
+              : <TimeSavingsCalculator />
+            }
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
-
 function Calculator({ children, title, description }) {
   return (
     <div
@@ -139,6 +140,7 @@ function Calculator({ children, title, description }) {
   );
 }
 
+// Time Savings Calculator Component
 function TimeSavingsCalculator() {
   const [hoursPerWeek, setHoursPerWeek] = useState(10);
   const [hourlyRate, setHourlyRate] = useState(400);
@@ -148,42 +150,59 @@ function TimeSavingsCalculator() {
   const annualROI = weeklyROI * 52;
 
   return (
-    <Calculator
-      title="Time Savings ROI Calculator"
-      description="See how many hours per week you can reclaim with AI automation, and the direct financial impact."
-    >
-      <div className="space-y-8">
-        <SliderInput
-          label="Hours Saved Per Week"
-          value={hoursPerWeek}
-          onChange={setHoursPerWeek}
-          max={40}
-          step={1}
-          unit=" hours"
-          tooltip="These are the estimated hours freed each week by automating repetitive tasks."
-        />
-
-        <SliderInput
-          label="Hourly Billing Rate"
-          value={hourlyRate}
-          onChange={setHourlyRate}
-          min={200}
-          max={1000}
-          step={50}
-          unit="$"
-          tooltip="The average hourly fee you charge clients for your services."
-        />
-
-        <ResultsCard 
-          monthlyValue={monthlyROI}
-          annualValue={annualROI}
-          subtitle="Projected yearly savings based on current rates"
-        />
+    <div className="space-y-6">
+      {/* Centered title and description */}
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-normal mb-3 text-cultured">
+          Time Savings ROI Calculator
+        </h2>
+        <p className="font-normal text-lg text-cultured mx-auto max-w-2xl" style={{ color: colors.argent }}>
+          See how many hours per week you can reclaim with AI automation, and the direct financial impact.
+        </p>
       </div>
-    </Calculator>
+
+      {/* Calculator content */}
+      <div
+        className="rounded-xl p-8 border border-opacity-20"
+        style={{ 
+          backgroundColor: colors.vampireBlack,
+          borderColor: colors.argent
+        }}
+      >
+        <div className="space-y-8">
+          <SliderInput
+            label="Hours Saved Per Week"
+            value={hoursPerWeek}
+            onChange={setHoursPerWeek}
+            max={40}
+            step={1}
+            unit=" hours"
+            tooltip="These are the estimated hours freed each week by automating repetitive tasks."
+          />
+
+          <SliderInput
+            label="Hourly Billing Rate"
+            value={hourlyRate}
+            onChange={setHourlyRate}
+            min={200}
+            max={1000}
+            step={50}
+            unit="$"
+            tooltip="The average hourly fee you charge clients for your services."
+          />
+
+          <ResultsCard 
+            monthlyValue={monthlyROI}
+            annualValue={annualROI}
+            subtitle="Projected yearly savings based on current rates"
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
+// Pipeline Calculator Component
 function PipelineCalculator() {
   const [monthlyCalls, setMonthlyCalls] = useState(10);
   const [callShow, setCallShow] = useState(95);
@@ -204,12 +223,12 @@ function PipelineCalculator() {
 
   return (
     <div className="space-y-6">
-      {/* Title and description */}
+      {/* Centered title and description */}
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-3 text-cultured">
+        <h2 className="text-3xl font-normal mb-3 text-cultured">
           Pipeline Value & ROI Calculator
         </h2>
-        <p className="font-medium text-lg text-cultured max-w-2xl mx-auto">
+        <p className="font-normal text-lg text-cultured mx-auto max-w-2xl" style={{ color: colors.argent }}>
           Calculate potential revenue from new leads and see how final ROI depends on your closing rate.
         </p>
       </div>
@@ -225,7 +244,7 @@ function PipelineCalculator() {
           }}
         >
           <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-cultured">
+            <h3 className="text-2xl font-normal text-cultured">
               Stage 1: Pipeline Value
             </h3>
             
@@ -293,7 +312,7 @@ function PipelineCalculator() {
           }}
         >
           <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-cultured">
+            <h3 className="text-2xl font-normal text-cultured">
               Stage 2: ROI Calculation
             </h3>
             
@@ -338,12 +357,12 @@ function ResultsCard({ monthlyValue, annualValue, subtitle, label = '' }) {
         >
           <div 
             style={{ color: colors.cultured }} 
-            className="text-sm font-medium"
+            className="text-sm font-normal"
           >
             Monthly {label}
           </div>
           <div 
-            className="text-3xl font-bold"
+            className="text-3xl font-normal"
             style={{ color: colors.cultured }}
           >
             ${monthlyValue.toLocaleString()}
@@ -352,12 +371,12 @@ function ResultsCard({ monthlyValue, annualValue, subtitle, label = '' }) {
         <div className="pt-2">
           <div 
             style={{ color: colors.cultured }} 
-            className="text-sm font-medium uppercase tracking-wider"
+            className="text-sm font-normal"
           >
             Annual {label}
           </div>
           <div 
-            className="text-4xl font-bold"
+            className="text-4xl font-normal"
             style={{ color: colors.cultured }}
           >
             ${annualValue.toLocaleString()}
