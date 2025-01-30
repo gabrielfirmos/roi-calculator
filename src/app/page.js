@@ -47,7 +47,7 @@ export default function CalculatorsPage() {
         style={{ 
           fontFamily: 'Inter, sans-serif',
           color: colors.cultured,
-          padding: '2rem 1rem',
+          padding: '3rem 1.5rem',
           background: `linear-gradient(180deg,
             rgb(25, 26, 27) 0%,
             rgb(20, 21, 22) 10%,
@@ -60,13 +60,13 @@ export default function CalculatorsPage() {
         }}
       >
       <div className="relative z-10 mx-auto" style={{ maxWidth: '60%' }}>
-        <div style={{ marginTop: '3rem', marginBottom: '3rem' }}>  {/* Added marginTop here */}
+        <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>  {/* Added marginTop here */}
           <div 
             style={{ 
               display: 'flex',
               justifyContent: 'center',
               gap: '24px',
-              marginBottom: '24px'
+              marginBottom: '36px'
             }}
           >
             {['pipeline', 'time'].map((tab) => {
@@ -108,6 +108,7 @@ export default function CalculatorsPage() {
     </div>
   );
 }
+
 function Calculator({ children, title, description }) {
   return (
     <div
@@ -150,13 +151,29 @@ function TimeSavingsCalculator() {
   return (
     <div className="space-y-6">
       {/* Centered title and description */}
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-normal mb-3 text-cultured">
+      <div className="text-center mb-6">
+        <h1 
+          className="mb-6 text-cultured"
+          style={{ 
+            fontSize: '56px', 
+            lineHeight: '61.6px', 
+            fontWeight: 500 
+          }}
+        >
           Time Savings ROI Calculator
-        </h2>
-        <p className="font-normal text-lg text-cultured mx-auto max-w-2xl" style={{ color: colors.argent }}>
+        </h1>
+        <h2 
+          className="font-normal text-cultured mx-auto"
+          style={{ 
+            fontSize: '21px', 
+            lineHeight: '28px', 
+            paddingTop: '24px',
+            paddingBottom: '24px',
+            color: colors.argent 
+          }}
+        >
           See how many hours per week you can reclaim with AI automation, and the direct financial impact.
-        </p>
+        </h2>
       </div>
 
       {/* Calculator content */}
@@ -222,13 +239,29 @@ function PipelineCalculator() {
   return (
     <div className="space-y-6">
       {/* Centered title and description */}
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-normal mb-3 text-cultured">
+      <div className="text-center mb-6">
+        <h1 
+          className="mb-6 text-cultured"
+          style={{ 
+            fontSize: '56px', 
+            lineHeight: '61.6px', 
+            fontWeight: 500 
+          }}
+        >
           Pipeline Value & ROI Calculator
-        </h2>
-        <p className="font-normal text-lg text-cultured mx-auto max-w-2xl" style={{ color: colors.argent }}>
+        </h1>
+        <h2 
+          className="font-normal text-cultured mx-auto"
+          style={{ 
+            fontSize: '21px', 
+            lineHeight: '28px', 
+            paddingTop: '24px',
+            paddingBottom: '24px',
+            color: colors.argent 
+          }}
+        >
           Calculate potential revenue from new leads and see how final ROI depends on your closing rate.
-        </p>
+        </h2>
       </div>
 
       {/* Two-column layout for stages */}
@@ -403,7 +436,7 @@ function SliderInput({
   format = val => val 
 }) {
   return (
-    <div className="group">
+    <div>
       <div className="flex items-center justify-between mb-3">
         <label 
           className="flex items-center text-base font-medium"
@@ -411,7 +444,7 @@ function SliderInput({
         >
           {label}
           {tooltip && (
-            <div className="relative ml-2">
+            <div className="relative ml-2 group">
               <Info 
                 className="w-4 h-4 transition-colors duration-200 hover:text-cultured" 
                 style={{ color: colors.cultured }} 
