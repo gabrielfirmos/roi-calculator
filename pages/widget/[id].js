@@ -47,7 +47,7 @@ export default function CalculatorsPage() {
         style={{ 
           fontFamily: 'Inter, sans-serif',
           color: colors.cultured,
-          padding: '3rem 1.5rem',
+          padding: '60px 1.5rem', // Changed from 2rem to 24px
           background: `linear-gradient(180deg,
             rgb(25, 26, 27) 0%,
             rgb(20, 21, 22) 10%,
@@ -60,13 +60,13 @@ export default function CalculatorsPage() {
         }}
       >
       <div className="relative z-10 mx-auto" style={{ maxWidth: '60%' }}>
-        <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>  {/* Added marginTop here */}
+        <div style={{ marginBottom: '1rem' }}>  {/* Removed marginTop */}
           <div 
             style={{ 
               display: 'flex',
               justifyContent: 'center',
-              gap: '24px',
-              marginBottom: '36px'
+              gap: '28px',
+              marginBottom: '48px'
             }}
           >
             {['pipeline', 'time'].map((tab) => {
@@ -153,7 +153,7 @@ function TimeSavingsCalculator() {
       {/* Centered title and description */}
       <div className="text-center mb-6">
         <h1 
-          className="mb-6 text-cultured"
+          className="text-cultured"
           style={{ 
             fontSize: '56px', 
             lineHeight: '61.6px', 
@@ -168,7 +168,7 @@ function TimeSavingsCalculator() {
             fontSize: '21px', 
             lineHeight: '28px', 
             paddingTop: '24px',
-            paddingBottom: '24px',
+            paddingBottom: '36px',
             color: colors.argent 
           }}
         >
@@ -241,7 +241,7 @@ function PipelineCalculator() {
       {/* Centered title and description */}
       <div className="text-center mb-6">
         <h1 
-          className="mb-6 text-cultured"
+          className="text-cultured"
           style={{ 
             fontSize: '56px', 
             lineHeight: '61.6px', 
@@ -256,7 +256,7 @@ function PipelineCalculator() {
             fontSize: '21px', 
             lineHeight: '28px', 
             paddingTop: '24px',
-            paddingBottom: '24px',
+            paddingBottom: '36px',
             color: colors.argent 
           }}
         >
