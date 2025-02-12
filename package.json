@@ -12,21 +12,22 @@
     "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "lucide-react": "^0.473.0",
+    "my-calculator-app": "file:",
     "next": "15.1.5",
     "next-connect": "^1.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "shadcn-ui": "^0.9.4",
-    "tailwind-merge": "^2.6.0",
-    "tailwindcss": "^4.0.0",
-    "postcss": "^8.5.1",
-    "autoprefixer": "^10.4.20"
+    "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "15.1.5",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17"
   }
 }
